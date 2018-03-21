@@ -1,0 +1,16 @@
+# only start after bot is up and running
+
+# create pipe
+mkfifo /tmp/fifoBlueJava
+
+# start listener
+/home/niklas/programming/c++/eclipse-workspace/BluetoothReader/Release/BluetoothReader "00:1A:7D:DA:71:04" &
+# start visualizer
+cd /home/niklas/programming/java/IdeaProjects/BluetoothReaderVisualizer/out/production/BluetoothReaderVisualizer/
+java -cp .:/home/niklas/programming/java/IdeaProjects/BluetoothReaderVisualizer/lib/json-simple-1.1.1.jar:/home/niklas/programming/java/IdeaProjects/BluetoothReaderVisualizer/lib/stdlib.jar com.niklashalle.Main
+
+# make sure the Connector is actually dead
+pkill BluetoothReader
+
+# remove pipe
+rm /tmp/fifoBlueJava

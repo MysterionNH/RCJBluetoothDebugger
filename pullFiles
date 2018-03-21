@@ -1,0 +1,3 @@
+cp ~/programming/java/IdeaProjects/BluetoothReaderVisualizer/src/com/niklashalle/* .
+cp ~/programming/c++/eclipse-workspace/BluetoothReader/src/* .
+cp ~/bin/listenIn .
