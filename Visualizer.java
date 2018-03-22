@@ -3,6 +3,7 @@ package com.niklashalle;
 import edu.princeton.cs.introcs.Draw;
 import edu.princeton.cs.introcs.DrawListener;
 
+import javax.swing.*;
 import java.awt.Color;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -107,12 +108,12 @@ public class Visualizer {
         });
 
         mCanvas.enableDoubleBuffering();
-        //mCanvas.setLocationOnScreen(1040,960);
         mCanvas.setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         mCanvas.setXscale(-FIELD_WIDTH_HALF - CANVAS_BORDER, FIELD_WIDTH_HALF + CANVAS_BORDER);
         mCanvas.setYscale(-FIELD_HEIGHT_HALF - CANVAS_BORDER, FIELD_HEIGHT_HALF + CANVAS_BORDER);
         defaultPenRadius = mCanvas.getPenRadius() * 3 / 512;
         mCanvas.setPenRadius(defaultPenRadius);
+        mCanvas.setLocationOnScreen((int) ((1920/2d) - (CANVAS_WIDTH/2d)), (int) ((1080/2d) - (CANVAS_HEIGHT/2d)) - 50);
     }
 
     void drawBackground() {
@@ -180,13 +181,11 @@ public class Visualizer {
         mCanvas.setPenColor(BLACK);
         mCanvas.rectangle(-PENALTY_X, 0, PENALTY_WIDTH_HALF, PENALTY_HEIGHT_HALF);
         mCanvas.rectangle(+PENALTY_X, 0, PENALTY_WIDTH_HALF, PENALTY_HEIGHT_HALF);
-        mCanvas.show();
 
         // bound lines
         mCanvas.setPenRadius(defaultPenRadius * 1.5);
         mCanvas.setPenColor(WHITE);
         mCanvas.rectangle(0, 0, INNER_WIDTH_HALF, INNER_HEIGHT_HALF);
-        mCanvas.show();
 
         // goals
         mCanvas.setPenRadius(defaultPenRadius * 0.75);
@@ -200,7 +199,6 @@ public class Visualizer {
         mCanvas.line(-GOAL_X + GOAL_WIDTH_HALF, GOAL_HEIGHT_HALF, -GOAL_X + GOAL_WIDTH_HALF, -GOAL_HEIGHT_HALF);
         mCanvas.setPenColor(YELLOW);
         mCanvas.line(GOAL_X - GOAL_WIDTH_HALF, GOAL_HEIGHT_HALF, GOAL_X - GOAL_WIDTH_HALF, -GOAL_HEIGHT_HALF);
-        mCanvas.show();
 
         // neutral spots
         mCanvas.setPenRadius(defaultPenRadius * 2);
@@ -210,13 +208,11 @@ public class Visualizer {
         mCanvas.point(-NEUTRAL_X, +NEUTRAL_Y);
         mCanvas.point(+NEUTRAL_X, -NEUTRAL_Y);
         mCanvas.point(-NEUTRAL_X, -NEUTRAL_Y);
-        mCanvas.show();
 
         // middle circle
         mCanvas.setPenRadius(defaultPenRadius);
         mCanvas.setPenColor(BLACK);
         mCanvas.circle(0,0, MIDDLE_CIRCLE_RADIUS);
-        mCanvas.show();
     }
 
     void updateScreen() {

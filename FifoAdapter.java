@@ -96,15 +96,12 @@ public class FifoAdapter {
 
         temp.timestamp = (Long) jsonRoot.get("timestamp");
 
-        temp.ballAngle = (Double) ((JSONObject) jsonRoot.get("customData")).get("ballAngle");
-        temp.ballDistance = (Double) ((JSONObject)
-                jsonRoot.get("customData")).get("ballDistance");
-        temp.macauStatus = (Boolean) ((JSONObject)
-                jsonRoot.get("customData")).get("macauStatus");
-        temp.macauEnabled = (Boolean) ((JSONObject)
-                jsonRoot.get("customData")).get("macauEnabled");
-        temp.lightbarrierStatus = (Boolean) ((JSONObject)
-                jsonRoot.get("customData")).get("lightbarrierStatus");
+        temp.ballAngle          = (Double)  ((JSONObject) jsonRoot.get("customData")).get("ballAngle");
+        temp.ballDistance       = (Double)  ((JSONObject) jsonRoot.get("customData")).get("ballDistance");
+        temp.macauStatus        = (Boolean) ((JSONObject) jsonRoot.get("customData")).get("macauStatus");
+        temp.macauEnabled       = (Boolean) ((JSONObject) jsonRoot.get("customData")).get("macauEnabled");
+        temp.lightbarrierStatus = (Boolean) ((JSONObject) jsonRoot.get("customData")).get("lightbarrierStatus");
+        temp.opponentGoal       = (Long)    ((JSONObject) jsonRoot.get("customData")).get("opponentGoal");
 
         robots[(int)temp.robotNumber] = temp;
     }
@@ -144,6 +141,7 @@ public class FifoAdapter {
         boolean macauStatus;
         boolean macauEnabled;
         boolean lightbarrierStatus;
+        long opponentGoal;
 
         // not part of the protocol
         private boolean real = false;
