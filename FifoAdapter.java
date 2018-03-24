@@ -77,8 +77,8 @@ public class FifoAdapter {
         temp.robotRotation  = (Double) robotPositionRoot.get("t");
 
         JSONObject robotVelocityRoot = (JSONObject) robotRoot.get("velocity");
-        temp.robotVelocityX = (Double) robotPositionRoot.get("x");
-        temp.robotVelocityY = (Double) robotPositionRoot.get("y");
+        temp.robotVelocityX = (Double) robotVelocityRoot.get("x");
+        temp.robotVelocityY = (Double) robotVelocityRoot.get("y");
 
         temp.robotStatus = (Long) robotRoot.get("status");
         temp.robotRole = (Long) robotRoot.get("role");
@@ -102,6 +102,7 @@ public class FifoAdapter {
         temp.macauEnabled       = (Boolean) ((JSONObject) jsonRoot.get("customData")).get("macauEnabled");
         temp.lightbarrierStatus = (Boolean) ((JSONObject) jsonRoot.get("customData")).get("lightbarrierStatus");
         temp.opponentGoal       = (Long)    ((JSONObject) jsonRoot.get("customData")).get("opponentGoal");
+        temp.cpuTemp            = (String)  ((JSONObject) jsonRoot.get("customData")).get("cpuTemp") + "°C";
 
         robots[(int)temp.robotNumber] = temp;
     }
@@ -142,6 +143,7 @@ public class FifoAdapter {
         boolean macauEnabled;
         boolean lightbarrierStatus;
         long opponentGoal;
+        String cpuTemp;
 
         // not part of the protocol
         private boolean real = false;

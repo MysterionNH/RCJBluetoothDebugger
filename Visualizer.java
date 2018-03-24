@@ -3,7 +3,6 @@ package com.niklashalle;
 import edu.princeton.cs.introcs.Draw;
 import edu.princeton.cs.introcs.DrawListener;
 
-import javax.swing.*;
 import java.awt.Color;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -11,10 +10,14 @@ public class Visualizer {
     // all lengths in mm
     private final double CANVAS_BORDER = 2000;
 
-    private final Color BLACK  = new Color(0x000000);
-    private final Color WHITE  = new Color(0xFFFFFF);
-    private final Color BLUE   = new Color(0x0000FF);
-    private final Color YELLOW = new Color(0xFFFF00);
+    private final Color BLACK   = new Color(0x000000);
+    private final Color WHITE   = new Color(0xFFFFFF);
+    private final Color BLUE    = new Color(0x0000FF);
+    private final Color YELLOW  = new Color(0xFFFF00);
+    private final Color RED     = new Color(0xFF0000);
+    private final Color CYAN    = new Color(0x00FFFF);
+    private final Color GREEN   = new Color(0x00FF00);
+    private final Color MAGENTA = new Color(0xFF00FF);
 
     // field
     private final Color WEDGE_GREEN = new Color(0x008844);
@@ -24,8 +27,9 @@ public class Visualizer {
     private final double FIELD_HEIGHT_HALF = 18200/2d;
     private final double WIDTH_HEIGHT_RATIO = FIELD_WIDTH_HALF / FIELD_HEIGHT_HALF;
 
-    private final double WEDGE_WIDTH_HALF  = FIELD_WIDTH_HALF  - 1000;
-    private final double WEDGE_HEIGHT_HALF = FIELD_HEIGHT_HALF - 1000;
+    private final double WEDGE_WIDTH_HALF  = FIELD_WIDTH_HALF;
+    private final double WEDGE_HEIGHT_HALF = FIELD_HEIGHT_HALF;
+    private final double WEDGE_SIZE = 1000;
 
     private final double INNER_WIDTH_HALF  = FIELD_WIDTH_HALF  - 3000;
     private final double INNER_HEIGHT_HALF = FIELD_HEIGHT_HALF - 3000;
@@ -43,6 +47,9 @@ public class Visualizer {
 
     private final double MIDDLE_CIRCLE_RADIUS = 6000/2d;
 
+    // wall markers
+    private final double WALL_MARKER_LENGTH = 2100;
+
     // robot
     private final double ROBOT_RADIUS = 1100;
     private final double ROBOT_CAPZONE_DEPTH = 250;
@@ -52,7 +59,7 @@ public class Visualizer {
     private final double BALL_RADIUS = 650/2d;
 
     // canvas
-    private final int CANVAS_HEIGHT = 800;
+    private final int CANVAS_HEIGHT = 888;
     private final int CANVAS_WIDTH = (int) Math.ceil(CANVAS_HEIGHT * WIDTH_HEIGHT_RATIO);
 
     private Draw mCanvas;
@@ -113,31 +120,50 @@ public class Visualizer {
         mCanvas.setYscale(-FIELD_HEIGHT_HALF - CANVAS_BORDER, FIELD_HEIGHT_HALF + CANVAS_BORDER);
         defaultPenRadius = mCanvas.getPenRadius() * 3 / 512;
         mCanvas.setPenRadius(defaultPenRadius);
-        mCanvas.setLocationOnScreen((int) ((1920/2d) - (CANVAS_WIDTH/2d)), (int) ((1080/2d) - (CANVAS_HEIGHT/2d)) - 50);
+        mCanvas.setLocationOnScreen((int) ((1920/2d) - (CANVAS_WIDTH/2d)), (int) ((1080/2d) - (CANVAS_HEIGHT/2d)) - 25);
     }
 
     void drawBackground() {
         // background
+        mCanvas.setPenRadius(defaultPenRadius);
         mCanvas.setPenColor(BLACK);
         mCanvas.filledRectangle(0, 0,
                 FIELD_WIDTH_HALF + CANVAS_BORDER, FIELD_HEIGHT_HALF + CANVAS_BORDER);
 
-        // outer
-        mCanvas.setPenColor(FIELD_GREEN);
-        mCanvas.filledRectangle(0, 0, FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF);
-
         // wedge
+        mCanvas.setPenRadius(defaultPenRadius);
         mCanvas.setPenColor(WEDGE_GREEN);
         mCanvas.filledRectangle(0, 0, WEDGE_WIDTH_HALF, WEDGE_HEIGHT_HALF);
 
         // inner
+        mCanvas.setPenRadius(defaultPenRadius);
         mCanvas.setPenColor(FIELD_GREEN);
-        mCanvas.filledRectangle(0, 0, WEDGE_WIDTH_HALF - 500, WEDGE_HEIGHT_HALF - 500);
+        mCanvas.filledRectangle(0, 0, WEDGE_WIDTH_HALF - WEDGE_SIZE, WEDGE_HEIGHT_HALF - WEDGE_SIZE);
+
+        // wall markers
+        mCanvas.setPenRadius(defaultPenRadius * 1.75);
+        mCanvas.setPenColor(RED);
+        mCanvas.line(-FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF, -FIELD_WIDTH_HALF + WALL_MARKER_LENGTH, FIELD_HEIGHT_HALF);
+        mCanvas.line(0, FIELD_HEIGHT_HALF, 0 + WALL_MARKER_LENGTH, FIELD_HEIGHT_HALF);
+        mCanvas.line(-FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF, -FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF - WALL_MARKER_LENGTH);
+        mCanvas.setPenColor(CYAN);
+        mCanvas.line(FIELD_WIDTH_HALF - WALL_MARKER_LENGTH, FIELD_HEIGHT_HALF, FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF);
+        mCanvas.line(-WALL_MARKER_LENGTH, FIELD_HEIGHT_HALF, 0, FIELD_HEIGHT_HALF);
+        mCanvas.line(FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF, FIELD_WIDTH_HALF, FIELD_HEIGHT_HALF - WALL_MARKER_LENGTH);
+        mCanvas.setPenColor(GREEN);
+        mCanvas.line(-FIELD_WIDTH_HALF + WALL_MARKER_LENGTH, -FIELD_HEIGHT_HALF, -FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF);
+        mCanvas.line(0, -FIELD_HEIGHT_HALF, WALL_MARKER_LENGTH, -FIELD_HEIGHT_HALF);
+        mCanvas.line(-FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF, -FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF + WALL_MARKER_LENGTH);
+        mCanvas.setPenColor(MAGENTA);
+        mCanvas.line(FIELD_WIDTH_HALF - WALL_MARKER_LENGTH, -FIELD_HEIGHT_HALF, FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF);
+        mCanvas.line(-WALL_MARKER_LENGTH, -FIELD_HEIGHT_HALF, 0, -FIELD_HEIGHT_HALF);
+        mCanvas.line(FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF, FIELD_WIDTH_HALF, -FIELD_HEIGHT_HALF + WALL_MARKER_LENGTH);
     }
 
     void drawRobot(double x, double y, double t, String name) {
         // body
         mCanvas.setPenColor(Color.BLACK);
+        mCanvas.setPenRadius(defaultPenRadius);
         mCanvas.filledCircle(x, y, ROBOT_RADIUS);
 
         // "cap zone"
@@ -155,7 +181,7 @@ public class Visualizer {
         double newX = x2 + x;
         double newY = y2 + y;
 
-        for (int i = 250; i >= 0; --i) {
+        for (int i = (int) ROBOT_CAPZONE_DEPTH; i >= 0; --i) {
             mCanvas.arc(newX, newY, i, t + 112, t - 112);
         }
 
